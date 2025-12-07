@@ -74,7 +74,7 @@
       
       data.forEach(d => d.index = d.id);
       console.log(data)
-      x.domain(data.map(d => d.location));
+      x.domain(data.map(d => d.id));
       y.domain([0, d3.max(data, d => d.total_vaccinations)]);
       z.domain(data.map(d => d.vaccine));
       
