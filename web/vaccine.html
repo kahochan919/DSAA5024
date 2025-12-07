@@ -53,9 +53,9 @@
     const yAxis = g.append('g');
     
     function updateChart(data) {
-      const svg = d3.select('#chart').append('svg')
-        .attr('viewBox', '0 0 0')
-        .attr('preserveAspectRatio', 'xMidYMid meet');
+      // const svg = d3.select('#chart').append('svg')
+      //   .attr('viewBox', '0 0 0')
+      //   .attr('preserveAspectRatio', 'xMidYMid meet');
 
       const margin = {top: 20, right: 30, bottom: 100, left: 80};
       const width = 1000 - margin.left - margin.right;
@@ -67,10 +67,10 @@
       const y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(data, d => d.total_vaccinations)]);
       const z = d3.scaleOrdinal(d3.schemeAccent).domain(data.map(d => d.vaccine));
       
-      const xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
+      xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll('text').style('text-anchor', 'end').attr('dx', '-.8em').attr('dy', '.15em').attr('transform', 'rotate(-45)');
       
-      const yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
+      yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
         .selectAll('line').attr('stroke', '#f0f0f0');
       
       const bars = g.selectAll('rect').data(data, d => d.location);
