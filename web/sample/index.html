@@ -23,7 +23,7 @@
     
     async function loadData() {
       try {
-        const response = await fetch('data.json');
+        const response = await fetch('sample.json');
         data = await response.json();
         updateChart(data.slice(-20));
       } catch (error) {
