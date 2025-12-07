@@ -53,19 +53,39 @@
     
     function updateChart(data) {
       console.log(data);
-      data.forEach(d => d.index = d.id);
-      x.domain(data.map(d => d.location));
-      y.domain([0, d3.max(data, d => d.total_vaccinations)]);
-      z.domain(data.map(d => d.vaccine));
       
+      groups = d3.map(data, function(d){return d.location})
+      console.log(groups)
+      x.domain(groups)
+      
+      vaccinations = d3.map(data, function(d){return d.total_vaccinations})
+      y.domain(vaccinations)
+
+      vaccine = d3.map(data, function(d){return d.vaccine})
+      z.domain(vaccine)
+
       xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll('text').style('text-anchor', 'end').attr('dx', '-.8em').attr('dy', '.15em').attr('transform', 'rotate(-45)');
-      
       yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
         .selectAll('line').attr('stroke', '#f0f0f0');
       
-      const bars = g.selectAll('rect').data(data, d => d.id);
+      const bars = g.selectAll('rect').data(data, d => d.index);
       bars.exit().transition().duration(500).attr('y', y(0)).attr('height', 0).remove();
+      
+      //data.forEach(d => d.index = d.id);
+      
+      // x.domain(data.map(d => d.location));
+      // y.domain([0, d3.max(data, d => d.total_vaccinations)]);
+      // z.domain(data.map(d => d.vaccine));
+      
+      // xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
+      //   .selectAll('text').style('text-anchor', 'end').attr('dx', '-.8em').attr('dy', '.15em').attr('transform', 'rotate(-45)');
+      
+      // yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
+      //   .selectAll('line').attr('stroke', '#f0f0f0');
+      
+      // const bars = g.selectAll('rect').data(data, d => d.id);
+      // bars.exit().transition().duration(500).attr('y', y(0)).attr('height', 0).remove();
       
       bars.enter().append('rect')
         .attr('fill', d => z(d.vaccine))
