@@ -38,7 +38,7 @@
     // D3 chart setup (same as previous examples)
     const svg = d3.select('#chart').append('svg')
       .attr('viewBox', '0 0 0')
-      .attr('preserveAspect>atio', 'xMidYMid meet');
+      .attr('preserveAspectRatio', 'xMidYMid meet');
     
     const margin = {top: 20, right: 30, bottom: 100, left: 80};
     const width = 1000 - margin.left - margin.right;
@@ -55,7 +55,7 @@
     function updateChart(data) {
       const svg = d3.select('#chart').append('svg')
         .attr('viewBox', '0 0 0')
-        .attr('preserveAspect>atio', 'xMidYMid meet');
+        .attr('preserveAspectRatio', 'xMidYMid meet');
 
       const margin = {top: 20, right: 30, bottom: 100, left: 80};
       const width = 1000 - margin.left - margin.right;
