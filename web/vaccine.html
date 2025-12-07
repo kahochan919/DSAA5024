@@ -67,10 +67,10 @@
       const y = d3.scaleLinear().range([height, 0]).domain([0, d3.max(data, d => d.total_vaccinations)]);
       const z = d3.scaleOrdinal(d3.schemeAccent).domain(data.map(d => d.vaccine));
       
-      xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
+      const xAxis.transition().call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll('text').style('text-anchor', 'end').attr('dx', '-.8em').attr('dy', '.15em').attr('transform', 'rotate(-45)');
       
-      yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
+      const yAxis.transition().call(d3.axisLeft(y).tickSize(-width))
         .selectAll('line').attr('stroke', '#f0f0f0');
       
       const bars = g.selectAll('rect').data(data, d => d.location);
