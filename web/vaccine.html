@@ -72,9 +72,9 @@
       // const bars = g.selectAll('rect').data(data, d => d.index);
       // bars.exit().transition().duration(500).attr('y', y(0)).attr('height', 0).remove();
       
-      data.forEach(d => d.index = d.id);
-      console.log(data)
-      x.domain(data.map(d => d.id));
+      data.forEach(d => d.location);
+      console.log(d)
+      x.domain(data.map(d => d.location));
       y.domain([0, d3.max(data, d => d.total_vaccinations)]);
       z.domain(data.map(d => d.vaccine));
       
