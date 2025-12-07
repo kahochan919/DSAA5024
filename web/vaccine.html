@@ -20,7 +20,7 @@
 
   <script>
     let data = [];
-    let x, y, z, svg, g, xAxis, yAxis;
+    // let x, y, z, svg, g, xAxis, yAxis;
     
     async function loadData() {
       try {
@@ -36,7 +36,7 @@
     loadData();
     
     // D3 chart setup (same as previous examples)
-    svg = d3.select('#chart').append('svg')
+    const svg = d3.select('#chart').append('svg')
       .attr('viewBox', '0 0 0')
       .attr('preserveAspect>atio', 'xMidYMid meet');
     
@@ -44,13 +44,13 @@
     const width = 1000 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
     
-    g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-    x = d3.scaleBand().range([0, width]).padding(0.1);
-    y = d3.scaleLinear().range([height, 0]);
-    z = d3.scaleOrdinal(d3.schemeAccent);
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+    const x = d3.scaleBand().range([0, width]).padding(0.1);
+    const y = d3.scaleLinear().range([height, 0]);
+    const z = d3.scaleOrdinal(d3.schemeAccent);
     
-    xAxis = g.append('g').attr('transform', `translate(0,${height})`);
-    yAxis = g.append('g');
+    const xAxis = g.append('g').attr('transform', `translate(0,${height})`);
+    const yAxis = g.append('g');
     
     function updateChart(data) {
       x.domain(data.map(d => d.location));
