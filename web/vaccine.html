@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cumulative Vaccinations over time</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 40px; }
+    .chart-container { max-width: 1000px; margin: 0 auto; }
+    svg { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .axis { font-size: 12px; }
+    .tooltip { 
+      position: absolute; 
+      background: rgba(0,0,0,0.8); 
+      color: white; 
+      padding: 8px; 
+      border-radius: 4px; 
+      font-size: 12px; 
+      pointer-events: none; 
+    }
+    button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="chart-container">
+    <h1>Cumulative Vaccinations over time</h1>
+    <button onclick="loadData()">Reload Data</button>
+    <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
+    <div id="chart"></div>
+  </div>
+
+  <script>
+    let data = [];
+    
+    // Load JSON data
+    async function loadData() {
+      try {
+        const response = await fetch('data.json');
+        data = await response.json();
+        updateScatter(data);
+      } catch (error) {
+        console.error('Load failed:', error);
+      }
+    }
+    
+    // Initial load
+    loadData();
+    
+    // D3 scatter plot setup
+    const svg = d3.select('#chart').append('svg')
+      .attr('viewBox', '0 0 1000 600')
+      .attr('preserveAspectRatio', 'xMidYMid meet');
+    
+    const margin = {top: 20, right: 40, bottom: 80, left: 60};
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+    
+    const g = svg.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+    
+    // Scales
+    const x = d3.scaleLinear().range([0, width]);
+    const y = d3.scaleLinear().range([height, 0]);
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    const size = d3.scaleSqrt().range([4, 20]);
+    
+    // Axes
+    const xAxis = g.append('g').attr('transform', `translate(0,${height})`).attr('class', 'axis');
+    const yAxis = g.append('g').attr('class', 'axis');
+    
+    // Tooltip
+    const tooltip = d3.select('#tooltip');
+    
+    function updateScatter(data) {
+      // Set domains
+      x.domain([0, d3.max(data, d => d.date || 0)]);
+      y.domain([0, d3.max(data, d => d.total_vaccinations || 0)]);
+      // size.domain([0, d3.max(data, d => d.amount || 0)]);
+      color.domain(data.map(d => d.country || 'unknown'));
+      
+      // Update axes
+      xAxis.transition().call(d3.axisBottom(x).ticks(10));
+      yAxis.transition().call(d3.axisLeft(y).ticks(8));
+      
+      // Hover interactions
+      g.selectAll('circle')
+        .on('mouseover', function(event, d) {
+          tooltip.style('opacity', 1)
+            .html(`<strong>${d.country || 'Unknown'}</strong><br/>
+                   Vaccinations: ${total_vaccinations?.toFixed(1)}<br/>
+                   Date: $${d.date?.toLocaleString()}<br/>
+                   
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 10) + 'px');
+        })
+        .on('mouseout', () => tooltip.style('opacity', 0));
+      
+      // Labels
+      g.append('text')
+        .attr('x', width / 2).attr('y', height + 35)
+        .attr('text-anchor', 'middle').text('Date');
+      
+      g.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2).attr('y', -margin.left + 15)
+        .attr('text-anchor', 'middle').text('Vaccinations');
+    }
+  </script>
+</body>
+</html>
