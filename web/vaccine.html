@@ -52,7 +52,6 @@
     const yAxis = g.append('g');
     
     function updateChart(data) {
-      data.forEach(d => d.id);
       x.domain(data.map(d => d.location));
       y.domain([0, d3.max(data, d => d.total_vaccinations)]);
       z.domain(data.map(d => d.vaccine));
