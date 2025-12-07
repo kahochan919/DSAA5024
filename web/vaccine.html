@@ -70,7 +70,7 @@
         .attr('fill', d => z(d.vaccine))
         .attr('x', width).attr('width', 0).attr('y', y(0)).attr('height', 0)
         .merge(bars).transition().duration(1000)
-        .attr('x', d => x(d.location)
+        .attr('x', d => x(d.location))
         .attr('width', x.bandwidth())
         .attr('y', d => y(d.total_vaccinations))
         .attr('height', d => height - y(d.total_vaccinations));
