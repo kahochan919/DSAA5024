@@ -53,6 +53,10 @@
     const yAxis = g.append('g');
     
     function updateChart(data) {
+      const svg = d3.select('#chart').append('svg')
+        .attr('viewBox', '0 0 0')
+        .attr('preserveAspect>atio', 'xMidYMid meet');
+
       const margin = {top: 20, right: 30, bottom: 100, left: 80};
       const width = 1000 - margin.left - margin.right;
       const height = 600 - margin.top - margin.bottom;
